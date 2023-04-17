@@ -16,7 +16,7 @@ import {
   listProjects,
   updateProjects,
 } from "./logics/projects.logic";
-import { projectId } from "./middlewares/projects.middlewares";
+import { projectDev, projectId } from "./middlewares/projects.middlewares";
 
 const app: Application = express();
 app.use(express.json());
@@ -27,9 +27,9 @@ app.patch("/developers/:id", devId, devEmail, updateDev);
 app.delete("/developers/:id", devId, deleteDev);
 app.post("/developers/:id/infos", devId, createDevInfo);
 
-app.post("/projects", createProject);
+app.post("/projects", projectDev, createProject);
 app.get("/projects/:id", projectId, listProjects);
-app.patch("/projects/:id", projectId, updateProjects);
+app.patch("/projects/:id", projectId, projectDev, updateProjects);
 app.delete("/projects/:id", projectId, deleteProjects);
 app.post("/projects/:id/technologies", projectId, createTec);
 app.delete("/projects/:id/technologies/:name", deleteTec);

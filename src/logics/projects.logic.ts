@@ -15,30 +15,6 @@ export const createProject = async (
 ): Promise<Response> => {
   const projctData: IProject = req.body;
 
-  const queryStringId: string = format(
-    `
-    SELECT 
-      *
-    FROM 
-      developers
-    WHERE
-      id = $1    
-    `
-  );
-
-  const queryConfigId: QueryConfig = {
-    text: queryStringId,
-    values: [projctData.developerId],
-  };
-
-  const queryResultId: QueryResult = await client.query(queryConfigId);
-
-  if (!queryResultId.rowCount) {
-    return res.status(404).json({
-      message: "Developer not found.",
-    });
-  }
-
   const queryString: string = format(
     `
       INSERT INTO
@@ -100,30 +76,6 @@ export const updateProjects = async (
 ): Promise<Response> => {
   const { id } = req.params;
   const data: IProjectUp = req.body;
-
-  const queryStringId: string = format(
-    `
-    SELECT 
-      *
-    FROM 
-      developers
-    WHERE
-      id = $1    
-    `
-  );
-
-  const queryConfigId: QueryConfig = {
-    text: queryStringId,
-    values: [data.developerId],
-  };
-
-  const queryResultId: QueryResult = await client.query(queryConfigId);
-
-  if (!queryResultId.rowCount) {
-    return res.status(404).json({
-      message: "Developer not found.",
-    });
-  }
 
   const queryString: string = format(
     `
